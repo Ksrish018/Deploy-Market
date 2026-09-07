@@ -13,7 +13,8 @@
     "dev": "concurrently -n server,client -c blue,green \"npm:dev:server\" \"npm:dev:client\"",
     "build": "npm run build --prefix client",
     "build:exe": "node scripts/build-exe.mjs",
-    "build:vercel": "node scripts/build-vercel.mjs"
+    "build:vercel": "node scripts/build-vercel.mjs",
+    "build:offline": "node scripts/build-offline.mjs"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.1.0",

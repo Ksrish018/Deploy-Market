@@ -30,7 +30,10 @@ export function ResetDataButton() {
       // the wiped data, and this guarantees it does, with zero risk of a
       // stale cache lingering anywhere.
       localStorage.removeItem('mst_cycle');
-      window.location.href = '/';
+      // A full reload, not a navigation to '/' — this page may be opened via
+      // file:// (the offline single-file build), where '/' would navigate to
+      // the filesystem root instead of reloading the app.
+      window.location.reload();
     } catch {
       setError('Reset failed — the server may be unreachable. Try again.');
       setBusy(false);

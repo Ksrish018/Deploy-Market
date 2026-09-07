@@ -33,8 +33,8 @@ export default function Archive() {
             <div key={b.id} className="flex items-center justify-between text-sm rounded-lg px-3 py-2" style={{ background: 'var(--surface-2)' }}>
               <span>{weekLabel(b.cycleId)} — generated {new Date(b.generatedAt).toLocaleString()} by {b.generatedBy}</span>
               <div className="flex gap-3">
-                <a href={BriefApi.exportXlsxUrl(b.cycleId, b.id)} className="text-xs font-semibold" style={{ color: 'var(--good)' }}>Excel</a>
-                <a href={BriefApi.exportMdUrl(b.cycleId, b.id)} className="text-xs font-semibold" style={{ color: 'var(--accent)' }}>Markdown</a>
+                <button onClick={() => BriefApi.downloadXlsx(b.cycleId, b.id)} className="text-xs font-semibold" style={{ color: 'var(--good)' }}>Excel</button>
+                <button onClick={() => BriefApi.downloadMarkdown(b.cycleId, b.id)} className="text-xs font-semibold" style={{ color: 'var(--accent)' }}>Markdown</button>
               </div>
             </div>
           ))}

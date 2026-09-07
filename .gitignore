@@ -15,6 +15,9 @@ data/
 # Ad-hoc deploy package, rebuilt on demand — not source
 market-workflow-deploy.zip
 
+# Build artifact — regenerate with `npm run build:offline`
+MarketSignalTriage-Offline.html
+
 # server/public is INTENTIONALLY tracked (not ignored), despite being a
 # build artifact: vercel.json ships it to the Vercel function via
 # `includeFiles`, and Vercel's build step never rebuilds the client itself

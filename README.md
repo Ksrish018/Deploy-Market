@@ -6,7 +6,12 @@ scoring, and an Excel brief for the next meeting.
 
 ## Quick start
 
-**Easiest: double-click `Start App.bat`** — installs dependencies the first
+**Truly the easiest — one HTML file, no install, no server, works offline:**
+double-click **`MarketSignalTriage-Offline.html`** and it opens straight in
+your browser, fully functional. See "The offline single-file build" below
+for exactly what this trades off.
+
+**Or, with a real shared backend — double-click `Start App.bat`** — installs dependencies the first
 time, starts everything, and opens your browser automatically. Double-click
 `Stop App.bat` to shut it down.
 
@@ -132,6 +137,46 @@ file under `server/src/data/logs/` independent of the JSON store.
 - **The batched exec digest** (PRD §Stage 6) is rendered in-app on the
   Dashboard, grouped by exec bucket — there's no outbound email/Slack in this
   build (matches the PRD's own non-goals for v1).
+
+## The offline single-file build
+
+`MarketSignalTriage-Offline.html` is the entire app — UI, classifier,
+scoring, Excel export — compiled into one ~1MB HTML file with no server, no
+build step, no install. Open it from anywhere: double-click it, email it,
+put it on a USB stick, open it on a phone. It works completely offline.
+
+**The trade-off, stated plainly:** this file has no backend. It stores all
+its data in the browser's own `localStorage`. That means:
+- Each device/browser that opens it has its **own independent copy** of the
+  data — there is no sharing or syncing between people or devices.
+- Clearing browser data (or opening in a private/incognito window) wipes it.
+- It's a personal/offline tool, not a substitute for the shared, deployed
+  app — use Vercel or Fly.io (below) when multiple people need to see the
+  same cycle.
+
+**How this works, technically:** the exact same client code runs in two
+modes, chosen automatically at runtime by checking the page's protocol —
+opened via `file://` (this build), it runs the classifier, scoring, and all
+persistence locally (see `client/src/local/`); served over `http(s)` by an
+actual backend (dev, `.exe`, Docker, Vercel), it calls the real `/api/*`
+routes exactly as before. Both paths are implemented once each
+(`client/src/api/localClient.ts` and `remoteClient.ts`) behind a single
+dispatcher (`client/src/api/client.ts`) that every page imports — so neither
+mode can silently regress the other.
+
+One minor, honest limitation: the offline build's Excel export uses the
+browser-side SheetJS library instead of the server's `exceljs`, since
+`exceljs` is Node-only. The exported workbook has identical data and sheet
+structure, just without the tier color-coding the server-generated version
+has.
+
+**To rebuild it** after a code change: `npm run build:vercel` (despite the
+name, this just builds the client) — then copy `client/dist/index.html` to
+`MarketSignalTriage-Offline.html` at the project root.
+
+**To reset its data:** open it and use the same "Reset data" button as
+everywhere else in the app — or clear that page's site data in your browser
+if you don't have the file open.
 
 ## Deploying on Vercel
 

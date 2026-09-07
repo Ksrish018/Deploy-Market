@@ -67,8 +67,8 @@ export default function Brief() {
               Generated {new Date(brief.generatedAt).toLocaleString()} by {brief.generatedBy} ({brief.generatedByRole}) · {signals.length} approved signal(s)
             </div>
             <div className="flex gap-2">
-              <a href={BriefApi.exportXlsxUrl(cycle.id, brief.id)} className="text-xs font-semibold rounded-lg px-3 py-1.5 text-white" style={{ background: 'var(--good)' }}>⬇ Export Excel (.xlsx)</a>
-              <a href={BriefApi.exportMdUrl(cycle.id, brief.id)} className="text-xs font-semibold rounded-lg px-3 py-1.5" style={{ background: 'var(--surface-2)', color: 'var(--ink-secondary)' }}>⬇ Export Markdown</a>
+              <button onClick={() => BriefApi.downloadXlsx(cycle.id, brief.id)} className="text-xs font-semibold rounded-lg px-3 py-1.5 text-white" style={{ background: 'var(--good)' }}>⬇ Export Excel (.xlsx)</button>
+              <button onClick={() => BriefApi.downloadMarkdown(cycle.id, brief.id)} className="text-xs font-semibold rounded-lg px-3 py-1.5" style={{ background: 'var(--surface-2)', color: 'var(--ink-secondary)' }}>⬇ Export Markdown</button>
             </div>
           </div>
           <div className="overflow-x-auto scroll-thin">
@@ -103,7 +103,7 @@ export default function Brief() {
       <div className="card p-4">
         <div className="flex items-center justify-between mb-2">
           <h2 className="text-sm font-semibold">Run log — for the next meeting</h2>
-          <a href={BriefApi.runLogExportUrl(cycle.id)} className="text-xs font-semibold" style={{ color: 'var(--accent)' }}>⬇ Export run log (.xlsx)</a>
+          <button onClick={() => BriefApi.downloadRunLogXlsx(cycle.id)} className="text-xs font-semibold" style={{ color: 'var(--accent)' }}>⬇ Export run log (.xlsx)</button>
         </div>
         <div className="overflow-x-auto scroll-thin">
           <table className="w-full text-xs border-collapse">
