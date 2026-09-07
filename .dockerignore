@@ -1,0 +1,11 @@
+**/node_modules
+client/dist
+server/build
+server/public
+server/src/data
+data
+public
+*.exe
+.git
+Start App.bat
+Stop App.bat
